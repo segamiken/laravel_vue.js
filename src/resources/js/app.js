@@ -1,8 +1,11 @@
 require('./bootstrap');
-window.Vue = require('vue'); 
+window.Vue = require('vue'); //Vue.jsの読み込み
+import VueRouter from 'vue-router';
+import router from './router'
 
-Vue.component('example', require('./components/Example.vue').default);
+Vue.use(VueRouter);
 
 const app = new Vue({
-    el: '#app'
+    router,
+    el: '#app',
 });

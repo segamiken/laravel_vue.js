@@ -9,22 +9,33 @@ class TaskController extends Controller
 {
     public function index()
     {
-        return Task::take(5)->get()->keyBy('id');
+        $tasks = Task::all();
+	    return response()->json(['tasks' => $tasks]);
+    }
+
+    public function show($id)
+    {
+        $task = Task::find($id);
+        return response()->json(['task' => $task]);
     }
 
     public function store(Request $request)
     {
-        return Task::create($request->only('name'))->save()->fresh();
+        $task = Task::create($request->new_task);
+        $tasks = Task::all();
+    	return response()->json(['tasks' => $tasks]);
     }
 
     public function destroy($id)
     {
-        return Task::destroy($id);
+        Task::destroy($id);
+	    return response()->json(['message' => 'delete successfully']);
     }
 
     public function update($id, Request $request)
     {
-        return Task::find($id)->fill($request->only('is_done'))
-               ->save()->fresh();
+        $task = Task::find($id);
+        $task->update($request->task);
+        return response()->json(['task' => $task]);
     }
 }
